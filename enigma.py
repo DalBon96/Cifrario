@@ -10,6 +10,7 @@ class Enigma:
 #########---END CLASS----------
 
 
+
 #INPUT FUNCTIONS.......
 def menu():
     message=input("Choose a message...")
@@ -17,14 +18,17 @@ def menu():
     while True:
         try:
             # Try to convert the input to an integer
-            int_value = int(key)
-            print(f"The value {int_value} is an integer.")
+            int(key)
+
+            #I CALL THE CLASS.......
             cipher=Enigma(message,key)
             print(cipher.print_message())
+            ##########################
+
             break  # Exit the loop if conversion is successful
         except ValueError:
             # Handle the case where conversion fails
-            print("That's not an integer. Please try again.")
+            print("That's not a number. Please try again....")
             key = input("Enter a value: ")
 
     
