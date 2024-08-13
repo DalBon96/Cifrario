@@ -18,18 +18,31 @@ class Enigma:
             # Handle the case where conversion fails
                 print("That's not a number. Please try again....")
                 self.key = input("Enter a value: ")
-        
 
+    
+    
     def print_message(self):
-        print("You chose " + self.text + " and " + self.key)
+        print("---------------")
+        print("Your message is : " + self.text)
+        print("The key is : "+self.key)
+        print("---------------")
+
+    def split_text(self,text):
+        text2 = list(self.text)
+        print(text2[5])
+
 #########---END CLASS----------
 
 
 
 #INPUT FUNCTIONS.......
 #start the programm from here
-cipher = Enigma(text=input(),key=input())
+text=input()
+key=input()
+
+cipher = Enigma(text,key)
 cipher.check_key()
+cipher.split_text(text)
 
     
 
