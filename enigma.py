@@ -1,38 +1,35 @@
-#############################
 class Enigma:
-    def __init__(self,message,key): #first function???
-        self.message=message
-        self.key=key
+    def __init__(self,text,key): #Costruttore
+        self.text = text
+        self.key = key
 
-    def print_value(self):
-        self.check_key(self)
-        return f"{self.message}, {self.key} these are the values."
-    
+    # Function to check if the KEY is a INT
     def check_key(self):
         while True:
             try:
-            # Try to convert the input to an integer
+            # Convert the input to an integer
                 int(self.key)
-                print("the values is a int")
-                break
+
+                print("The key is a Number")
+                self.print_message()
+            ##########################
+                break  # Exit the loop if conversion is successful
             except ValueError:
-    #       # Handle the case where conversion fails
+            # Handle the case where conversion fails
                 print("That's not a number. Please try again....")
                 self.key = input("Enter a value: ")
+        
 
+    def print_message(self):
+        print("You chose " + self.text + " and " + self.key)
 #########---END CLASS----------
 
 
 
 #INPUT FUNCTIONS.......
-message=input("Choose a message...")
-key=input("Choose the key (1-10)...")
-
-#I CALL THE CLASS.......
-cipher=Enigma(message,key) 
-print(cipher.print_value())
-##########################
-    
+#start the programm from here
+cipher = Enigma(text=input(),key=input())
+cipher.check_key()
 
     
 
