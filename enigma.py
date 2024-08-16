@@ -27,9 +27,16 @@ class Enigma:
         print("The key is : "+self.key)
         print("---------------")
 
-    def split_text(self,text):
-        text2 = list(self.text)
-        print(text2[5])
+    def split_text(self,text,key):
+        text2 = list(text)
+        new_key=int(key)
+        ascii_numbers = [ord(char)+new_key for char in text2]
+        print(ascii_numbers)
+
+        new_list=[]
+        for value in ascii_numbers:
+            new_list.append(chr(value))
+        print(''.join(new_list))
 
 #########---END CLASS----------
 
@@ -42,7 +49,7 @@ key=input()
 
 cipher = Enigma(text,key)
 cipher.check_key()
-cipher.split_text(text)
+cipher.split_text(text,key)
 
     
 
