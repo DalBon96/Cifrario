@@ -28,15 +28,17 @@ class Enigma:
         print("---------------")
 
     def split_text(self,text,key):
-        text2 = list(text)
-        new_key=int(key)
-        ascii_numbers = [ord(char)+new_key for char in text2]
+        text2 = list(text) #I create the Array
+        new_key=int(key) # i transform the string to int
+        ascii_numbers = [ord(char)+new_key for char in text2] #i transform the values in the list in ASCII and i sum the KEY
         print(ascii_numbers)
 
+        #i transform from ASCII to list of letters
+        #and create the edit string
         new_list=[]
         for value in ascii_numbers:
             new_list.append(chr(value))
-        print(''.join(new_list))
+        print(''.join(new_list)) #the new string is edit within a key
 
 #########---END CLASS----------
 
