@@ -1,4 +1,4 @@
-import tkinter 
+import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 import mysql.connector #MYSQL
@@ -24,7 +24,7 @@ def print_entry_text():
             except Exception as e:
         # Handle the error and display a message box
                 messagebox.showerror("Error", f"Invalid Input: {e}")
-                entry_key.delete(0, Tk.END)
+                entry_key.delete(0, tk.END)
     
     text2 = list(entry_text) #I create the Array
     #new_key=int(key) # i transform the string to int
@@ -50,12 +50,15 @@ def save_data(text,text2):
 #SECOND OPRTION OF THE MENU
 #SHOW THE LIST
 def print_list():
-    listbox = Tk.Listbox(window)
+    listbox = tk.Listbox(page2, width=50, height=10)
+    listbox.pack(pady=20)
+
     data=db.cursor()
     data.execute("SELECT * FROM enigma")
-    for x in data:
-    listbox.insert(Tk.END, x)
-    listbox.pack(fill=Tk.BOTH, expand=True)
+
+    for item in data:
+        listbox.insert(tk.END, item)
+
     db.commit()
          
 
@@ -64,7 +67,7 @@ def print_list():
 
 ###################### MENU 1 ######################################################################
 
-window=tkinter.Tk()
+window=tk.Tk()
 window.geometry("800x800")
 window.configure(bg="#333333")
 window.resizable(False,False)
@@ -132,8 +135,11 @@ btn2.pack(pady=50,padx=325)
 title=Label(page2,text="This is page 2",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
-btn1=Button(page1,text="Show the Entire list",bg="#333333",fg="white", command=print_list) #The function for print the entire list of items
+#to show the list
+btn1=Button(page2,text="Show the entire list",bg="#333333",fg="white",command=print_list)
 btn1.pack(pady=50,padx=325)
+######
+
 
 btn2=Button(page2,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn2.pack(pady=50,padx=325)

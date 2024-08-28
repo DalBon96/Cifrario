@@ -1,18 +1,26 @@
 import tkinter as tk
 
-# Step 1: Create the main application window
+def show_items(items):
+    # Clear the listbox before adding new items
+    listbox.delete(0, tk.END)
+    
+    # Add each item to the listbox
+    for item in items:
+        listbox.insert(tk.END, item)
+
+# Create the main window
 root = tk.Tk()
-root.title("List of Strings")
-root.geometry("300x200")
+root.title("Item List")
 
-# Step 2: Create a Listbox widget and populate it with the list of strings
-strings_list = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"]
-listbox = tk.Listbox(root)
+# Create a Listbox to show items
+listbox = tk.Listbox(root, width=50, height=10)
+listbox.pack(pady=20)
 
-for item in strings_list:
-    listbox.insert(tk.END, item)
+# Create a sample list of items
+items = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"]
 
-listbox.pack(fill=tk.BOTH, expand=True)
+# Call the function to show items immediately
+show_items(items)
 
-# Step 3: Run the main event loop
+# Start the main event loop
 root.mainloop()
