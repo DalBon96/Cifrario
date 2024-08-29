@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 import mysql.connector #MYSQL
+from mysql.connector import Error
 
 #CONNECTION
 db=mysql.connector.connect(
@@ -47,21 +48,46 @@ def save_data(text,text2):
 
 #SECOND OPRTION OF THE MENU
 #SHOW THE LIST
-def print_list(listbox):
+def print_list(listbox,items):
     listbox.delete(0, tk.END)
 
-    data=db.cursor()
-    data.execute("SELECT * FROM enigma")
 
-    for item in data:
+    for item in items:
         listbox.insert(tk.END, item)
+
+
+def update_listbox():
+    try:
+        # Establish a database connection
+        db=mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            database="enigma")
         
-
-    db.commit()
+        if db.is_connected():
+            cursor = db.cursor()
+            cursor.execute("SELECT * FROM enigma")
+            rows = cursor.fetchall()
+            
+            # Format the rows into a list of strings to display in the Listbox
+            items = []
+            for row in rows:
+                # Assuming the table has columns: id, name, price
+                formatted_item = f"ID: {row[0]} | {row[1]} | {row[3]}"
+                items.append(formatted_item)
+            
+            # Update the listbox with the formatted items
+            print_list(listbox, items)
+    
+    except Error as e:
+        print(f"Error: {e}")
+    
+    finally:
+        if db.is_connected():
+            cursor.close()
+            db.close()
          
-
-
-
 
 ###################### MENU 1 ######################################################################
 
@@ -142,8 +168,10 @@ title.pack(pady=50,padx=325)
 #to show the list
 listbox = tk.Listbox(page2, width=80, height=15)
 listbox.pack(pady=20)
-print_list(listbox)
+print_list(listbox,[])
 ######
+update_button = tk.Button(page2, text="Update Listbox from DB", command=update_listbox)
+update_button.pack(pady=10)
 
 btn2=Button(page2,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn2.pack(pady=50,padx=325)
