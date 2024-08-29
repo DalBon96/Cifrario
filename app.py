@@ -12,8 +12,6 @@ db=mysql.connector.connect(
 
 # function to get text from entry widget
 def print_entry_text():
-    
-
     entry_text = entry.get()
     entry_key = key.get()
     while True:
@@ -49,15 +47,15 @@ def save_data(text,text2):
 
 #SECOND OPRTION OF THE MENU
 #SHOW THE LIST
-def print_list():
-    listbox = tk.Listbox(page2, width=50, height=10)
-    listbox.pack(pady=20)
+def print_list(listbox):
+    listbox.delete(0, tk.END)
 
     data=db.cursor()
     data.execute("SELECT * FROM enigma")
 
     for item in data:
         listbox.insert(tk.END, item)
+        
 
     db.commit()
          
@@ -92,13 +90,13 @@ page3.grid(row=0,column=0,sticky="nsew")
 title1 = Label(menu,text="PRINCIPAL MENU",bg="#333333",fg="white")
 title1.pack(pady=50,padx=325)
 
-btn1= Button(menu,text="menu 1",bg="#333333",fg="white", width=10,command=lambda:page1.tkraise())
+btn1= Button(menu,text="Write the message",bg="#333333",fg="white", width=15,command=lambda:page1.tkraise())
 btn1.pack(pady=10,padx=325)
     
-btn2= Button(menu,text="menu 2",bg="#333333",fg="white", width=10,command=lambda:page2.tkraise())
+btn2= Button(menu,text="The list of messages",bg="#333333",fg="white", width=15,command=lambda:page2.tkraise())
 btn2.pack(pady=10,padx=325)
 
-btn3= Button(menu,text="menu 3",bg="#333333",fg="white", width=10,command=lambda:page3.tkraise())
+btn3= Button(menu,text="Update messages",bg="#333333",fg="white", width=15,command=lambda:page3.tkraise())
 btn3.pack(pady=10,padx=325)
 
 btn4= Button(menu,text="Exit",bg="#333333",fg="white", width=10,command=quit)
@@ -108,13 +106,17 @@ btn4.pack(pady=10,padx=325) #exit TO THE APP
 
 ###################### PAGE 1 ######################################################################
  
-title=Label(page1,text="This is page 1",bg="#333333",fg="white")
+title=Label(page1,text="Write your message",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
     #TO PRINT THE TEXT
+label1 = Label(page1,text="► Message ◄",bg="#333333",fg="white")
+label1.pack()
 entry=Entry(page1, width=30)
 entry.pack(pady=20)
 
+label2 = Label(page1,text="► Choose the number ◄",bg="#333333",fg="white")
+label2.pack()
 key=Entry(page1, width=5)
 key.pack(pady=20)
 
@@ -123,6 +125,8 @@ btn1=Button(page1,text="Confirm",bg="#333333",fg="white", command=print_entry_te
 btn1.pack(pady=50,padx=325)
 
 
+label3 = Label(page1,text="► Ciphertext ◄",bg="#333333",fg="white")
+label3.pack()
 label = Label(page1, text="") 
 label.pack(pady=30)
 
@@ -132,14 +136,14 @@ btn2.pack(pady=50,padx=325)
 
 ###################### PAGE 2 ######################################################################
 
-title=Label(page2,text="This is page 2",bg="#333333",fg="white")
+title=Label(page2,text="The list of all messages",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
 #to show the list
-btn1=Button(page2,text="Show the entire list",bg="#333333",fg="white",command=print_list)
-btn1.pack(pady=50,padx=325)
+listbox = tk.Listbox(page2, width=80, height=15)
+listbox.pack(pady=20)
+print_list(listbox)
 ######
-
 
 btn2=Button(page2,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn2.pack(pady=50,padx=325)

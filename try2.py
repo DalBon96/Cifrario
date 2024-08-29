@@ -1,26 +1,44 @@
 import tkinter as tk
 
-def show_items(items):
-    # Clear the listbox before adding new items
+def populate_listbox(listbox, items):
+    # Clear the current listbox contents
     listbox.delete(0, tk.END)
     
-    # Add each item to the listbox
+    # Insert each item from the items list into the listbox
     for item in items:
         listbox.insert(tk.END, item)
 
 # Create the main window
 root = tk.Tk()
-root.title("Item List")
+root.title("Listbox Example")
 
-# Create a Listbox to show items
-listbox = tk.Listbox(root, width=50, height=10)
+# Create a Listbox widget
+listbox = tk.Listbox(root)
 listbox.pack(pady=20)
 
-# Create a sample list of items
-items = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"]
+# List of items to display
+items = ["Apple", "Banana", "Cherry", "Date", "Fig", "Grape"]
 
-# Call the function to show items immediately
-show_items(items)
+# Call the function to populate the listbox
+populate_listbox(listbox, items)
 
-# Start the main event loop
+# Start the Tkinter event loop
 root.mainloop()
+
+
+
+
+def print_list(listbox):
+    listbox.delete(0, tk.END)
+
+    data=db.cursor()
+    data.execute("SELECT * FROM enigma")
+
+    for item in data:
+        listbox.insert(tk.END, item)
+
+    db.commit()
+
+listbox = tk.Listbox(page2)
+listbox.pack(pady=20)
+print_list(listbox)
