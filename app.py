@@ -37,20 +37,21 @@ def print_entry_text():
 
     #I save the value to bring in another method
     save_value = ''.join(new_list)
-    save_data(entry_text,save_value)
+    save_data(entry_text,save_value,entry_key)
 
 #Method to save the text and the EDIT test  FROM print_entry_text()
-def save_data(text,text2):
+def save_data(text,text2,key):
     data=db.cursor()
-    data.execute("INSERT INTO enigma (message,new_message) VALUES (%s,%s)",(text,text2))
+    data.execute("INSERT INTO enigma (message,new_message,number) VALUES (%s,%s,%s)",(text,text2,key))
     db.commit()
 
 
-#SECOND OPRTION OF THE MENU
+##########################################################################################################
+##########################################################################################################
+#SECOND OPTION OF THE MENU
 #SHOW THE LIST
 def print_list(listbox,items):
     listbox.delete(0, tk.END)
-
 
     for item in items:
         listbox.insert(tk.END, item)
@@ -74,7 +75,7 @@ def update_listbox():
             items = []
             for row in rows:
                 # Assuming the table has columns: id, name, price
-                formatted_item = f"ID: {row[0]} | {row[1]} | {row[3]}"
+                formatted_item = f"ID: {row[0]} | {row[1]} | {row[3]} | {row[4]}"
                 items.append(formatted_item)
             
             # Update the listbox with the formatted items
@@ -87,9 +88,11 @@ def update_listbox():
         if db.is_connected():
             cursor.close()
             db.close()
-         
+##########################################################################################################
+##########################################################################################################   
+#THIRD OPTION OF THE MENU     
 
-###################### MENU 1 ######################################################################
+###################### PRINCIPAL MENU ######################################################################
 
 window=tk.Tk()
 window.geometry("800x800")
@@ -97,96 +100,119 @@ window.configure(bg="#333333")
 window.resizable(False,False)
 
     #CREATION PAGES
-menu= Frame(window,bg="#333333")
-page1 = Frame(window,bg="#333333")
-page2 = Frame(window,bg="#333333")
-page3 = Frame(window,bg="#333333")
+menu = Frame(window,bg="#333333")
+write = Frame(window,bg="#333333")
+messages = Frame(window,bg="#333333")
+modify = Frame(window,bg="#333333")
 
     #grid pages
 menu.grid(row=0,column=0,sticky="nsew") #MENU 1
-page1.grid(row=0,column=0,sticky="nsew")
-page2.grid(row=0,column=0,sticky="nsew")
-page3.grid(row=0,column=0,sticky="nsew")
+write.grid(row=0,column=0,sticky="nsew")
+messages.grid(row=0,column=0,sticky="nsew")
+modify.grid(row=0,column=0,sticky="nsew")
 
 
     
+####################################################################################################
+#########################   BUTTONS FOR THE PRINCIPAL MENU   #######################################
 ####################################################################################################
 #function for the first menu
 
 title1 = Label(menu,text="PRINCIPAL MENU",bg="#333333",fg="white")
 title1.pack(pady=50,padx=325)
 
-btn1= Button(menu,text="Write the message",bg="#333333",fg="white", width=15,command=lambda:page1.tkraise())
+btn1= Button(menu,text="Write the message",bg="#333333",fg="white", width=15,command=lambda:write.tkraise())
 btn1.pack(pady=10,padx=325)
     
-btn2= Button(menu,text="The list of messages",bg="#333333",fg="white", width=15,command=lambda:page2.tkraise())
+btn2= Button(menu,text="The list of messages",bg="#333333",fg="white", width=15,command=lambda:messages.tkraise())
 btn2.pack(pady=10,padx=325)
 
-btn3= Button(menu,text="Update messages",bg="#333333",fg="white", width=15,command=lambda:page3.tkraise())
+btn3= Button(menu,text="Update messages",bg="#333333",fg="white", width=15,command=lambda:modify.tkraise())
 btn3.pack(pady=10,padx=325)
 
 btn4= Button(menu,text="Exit",bg="#333333",fg="white", width=10,command=quit)
 btn4.pack(pady=10,padx=325) #exit TO THE APP
 
-####################################################################################################
 
+
+####################################################################################################
 ###################### PAGE 1 ######################################################################
+####################################################################################################
  
-title=Label(page1,text="Write your message",bg="#333333",fg="white")
+title=Label(write,text="Write your message",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
     #TO PRINT THE TEXT
-label1 = Label(page1,text="► Message ◄",bg="#333333",fg="white")
+label1 = Label(write,text="► Message ◄",bg="#333333",fg="white")
 label1.pack()
-entry=Entry(page1, width=30)
+entry=Entry(write, width=30)
 entry.pack(pady=20)
 
-label2 = Label(page1,text="► Choose the number ◄",bg="#333333",fg="white")
+label2 = Label(write,text="► Choose the number ◄",bg="#333333",fg="white")
 label2.pack()
-key=Entry(page1, width=5)
+key=Entry(write, width=5)
 key.pack(pady=20)
 
-
-btn1=Button(page1,text="Confirm",bg="#333333",fg="white", command=print_entry_text) #THE FUNCTION IS UP
+btn1=Button(write,text="Confirm",bg="#333333",fg="white", command=print_entry_text) #THE FUNCTION IS UP
 btn1.pack(pady=50,padx=325)
 
-
-label3 = Label(page1,text="► Ciphertext ◄",bg="#333333",fg="white")
+label3 = Label(write,text="► Ciphertext ◄",bg="#333333",fg="white")
 label3.pack()
-label = Label(page1, text="") 
+label = Label(write, text="") 
 label.pack(pady=30)
 
-btn2=Button(page1,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
+btn2=Button(write,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn2.pack(pady=50,padx=325)
 
 
+####################################################################################################
 ###################### PAGE 2 ######################################################################
+####################################################################################################
 
-title=Label(page2,text="The list of all messages",bg="#333333",fg="white")
+title=Label(messages,text="The list of all messages",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
 #to show the list
-listbox = tk.Listbox(page2, width=80, height=15)
+listbox = tk.Listbox(messages, width=80, height=15)
 listbox.pack(pady=20)
 print_list(listbox,[])
 ######
-update_button = tk.Button(page2, text="Update Listbox from DB", command=update_listbox)
+update_button = tk.Button(messages, text="Update Listbox from DB", command=update_listbox)
 update_button.pack(pady=10)
 
-btn2=Button(page2,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
+btn2=Button(messages,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn2.pack(pady=50,padx=325)
 
+####################################################################################################
 ###################### PAGE 3 ######################################################################
+####################################################################################################
 
-title=Label(page3,text="This is page 3",bg="#333333",fg="white")
+title=Label(modify,text="Edit your message",bg="#333333",fg="white")
 title.pack(pady=50,padx=325)
 
-btn1=Button(page3,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
+delete=Button(modify,text="Delete",bg="#333333",fg="white")
+delete.pack(pady=10)
+
+edit=Button(modify,text="Edit",bg="#333333",fg="white")
+edit.pack(pady=10)
+
+btn1=Button(modify,text="Come back in MENU",bg="#333333",fg="white",command=lambda:menu.tkraise())
 btn1.pack(pady=50,padx=325)
 
 
+####################################################################################################
+###################### PEND PAGES ######################################################################
+####################################################################################################
 
 menu.tkraise() 
 window.mainloop()
 
 
+
+
+# COMMANDS FOR MYSQL
+#DELETE FROM enigma WHERE id=;
+
+#UPDATE enigma
+#SET column1 = value1, column2 = value2, ...
+#WHERE condition;

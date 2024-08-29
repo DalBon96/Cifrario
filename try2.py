@@ -1,56 +1,29 @@
 import tkinter as tk
-import mysql.connector
-from mysql.connector import Error
+from tkinter import messagebox
 
-def populate_listbox(listbox, items):
-    # Clear the current listbox contents
-    listbox.delete(0, tk.END)
-    
-    # Insert each item from the items list into the listbox
-    for item in items:
-        listbox.insert(tk.END, item)
-
-def update_listbox():
-    try:
-        # Establish a database connection
-        connection = mysql.connector.connect(
-            host='localhost',
-            database='your_database_name',
-            user='your_username',
-            password='your_password'
-        )
-        
-        if connection.is_connected():
-            cursor = connection.cursor()
-            cursor.execute("SELECT item_column FROM your_table_name")
-            rows = cursor.fetchall()
-            
-            # Extract items from the rows and update the listbox
-            items = [row[0] for row in rows]
-            populate_listbox(listbox, items)
-    
-    except Error as e:
-        print(f"Error: {e}")
-    
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+def on_button_click(button_name):
+    if button_name == "Button 1":
+        messagebox.showinfo("Info", "You clicked Button 1!")
+    elif button_name == "Button 2":
+        messagebox.showinfo("Info", "You clicked Button 2!")
+    elif button_name == "Button 3":
+        messagebox.showinfo("Info", "You clicked Button 3!")
+    else:
+        messagebox.showerror("Error", "Unknown button!")
 
 # Create the main window
 root = tk.Tk()
-root.title("Listbox Update with MySQL")
+root.title("Button Click Example")
 
-# Create a Listbox widget
-listbox = tk.Listbox(root)
-listbox.pack(pady=20)
+# Create Buttons and link them to the on_button_click function with different arguments
+button1 = tk.Button(root, text="Button 1", command=lambda: on_button_click("Button 1"))
+button2 = tk.Button(root, text="Button 2", command=lambda: on_button_click("Button 2"))
+button3 = tk.Button(root, text="Button 3", command=lambda: on_button_click("Button 3"))
 
-# Initial empty population
-populate_listbox(listbox, [])
-
-# Create a Button to update the listbox from the database
-update_button = tk.Button(root, text="Update Listbox from DB", command=update_listbox)
-update_button.pack(pady=10)
+# Pack the buttons into the window
+button1.pack(pady=5)
+button2.pack(pady=5)
+button3.pack(pady=5)
 
 # Start the Tkinter event loop
 root.mainloop()
